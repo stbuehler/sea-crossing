@@ -19,7 +19,7 @@ extern "C" {
 
 using namespace FBX;
 
-void read_nested(const std::string indent, Reader& reader, Reader::NodeChildren nodes) {
+static void read_nested(const std::string indent, Reader& reader, Reader::NodeChildren nodes) {
 	Reader::Node node;
 	std::string indent2 = indent + "  ";
 
@@ -51,15 +51,14 @@ void read_nested(const std::string indent, Reader& reader, Reader::NodeChildren 
 int main(int argc, char **argv) {
 	if (argc < 2) { printf("not enough arguments\n"); return 1; }
 
-/*
 	Reader reader(argv[1]);
 	uint32_t version;
 	Reader::NodeChildren nodes = reader.load(version);
 	std::cout << "Version: " << version << "\n";
 
 	read_nested(std::string(""), reader, nodes);
-*/
 
+#if 0
 	std::shared_ptr<Geometry> geometry = Geometry::fbxLoadFirstGeometry(argv[1]);
 
 	std::cout.setf(std::ios_base::showpos);
@@ -79,4 +78,5 @@ int main(int argc, char **argv) {
 		std::cout << ", " << ndx;
 	}
 	std::cout << "\n";
+#endif
 }

@@ -4,12 +4,21 @@ RenderHub* RenderHub::activeInstance;
 
 RenderHub::RenderHub()
 {
+	MessageChannel::MessageReceiver r;
+	MessageChannel::MessageSender s;
+	MessageChannel::initMessageChannel(r, s);
+	messageRcvr = r;
+	messageSndr = s;
 }
 
 RenderHub::~RenderHub()
 {
 }
 
+MessageSender RenderHub::messageSender()
+{
+	return messageSndr;
+}
 
 bool RenderHub::init()
 {
@@ -161,10 +170,10 @@ void RenderHub::run()
 	while(running && !glfwWindowShouldClose(activeWindow))
 	//while(running)
 	{
-		while(messageRcvr.checkQueue())
+		std::shared_ptr<Message> msg;
+		while(messageRcvr.tryGetMessage(msg))
 		{
-			Message msg(messageRcvr.popMessage());
-			processMessage(&msg);
+			processMessage(msg);
 		}
 
 		/*	For now, I avoid using glfw callback functions */
@@ -252,7 +261,7 @@ void RenderHub::runVolumeTest()
 	}
 }
 
-void RenderHub::processMessage(Message *msg)
+void RenderHub::processMessage(const std::shared_ptr<Message> &msg)
 {
 	messageType msgType = (msg->type);
 	switch (msgType){

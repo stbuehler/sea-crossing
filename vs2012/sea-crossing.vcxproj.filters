@@ -81,6 +81,9 @@
     <ClCompile Include="..\src\engine\texture3D.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\engine\messageGeneric.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\engine\messageReceiver.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>

@@ -24,7 +24,7 @@ class DebugGame{
 
 		ConsolePlayer** player;
 		Board& board;
-		MessageReceiver* receiver;
+		MessageSender receiver;
 
 		std::vector<Move> moves;
 		std::vector<Move> reverted_moves;
@@ -41,7 +41,7 @@ class DebugGame{
 
 	public:
 		DebugGame(ConsolePlayer* player1, ConsolePlayer* player2,
-				Board& board, MessageReceiver* receiver = 0);
+				Board& board, MessageSender receiver = MessageSender());
 		void start();
 };
 
@@ -62,14 +62,14 @@ class SimpleGUIGame{
 	private:
 		Player** player;
 		Board& board;
-		MessageReceiver* receiver;
+		MessageSender receiver;
 
 		bool makeMove(PlayerID player_id);
 		void placeGem(PlayerID player_id, NodeLabel label);
 
 	public:
 		SimpleGUIGame(Player* player1, Player* player2,
-				Board& board, MessageReceiver* receiver);
+				Board& board, MessageSender receiver);
 		void start();
 };
 

@@ -6,7 +6,7 @@ BIN = ../bin/main
 OBJ = conf.o \
 	game/game.o game/board.o game/player.o game/human_players.o \
 	ai/ai_players.o \
-	engine/renderHub.o engine/framebufferObject.o engine/messageReceiver.o engine/sceneCamera.o engine/texture2D.o engine/GLSLProgram.o \
+	engine/renderHub.o engine/framebufferObject.o engine/messageGeneric.o engine/messageReceiver.o engine/sceneCamera.o engine/texture2D.o engine/GLSLProgram.o \
 	engine/postProcessor.o engine/scene.o engine/texture3D.o engine/material.o engine/sceneEntity.o engine/mesh.o \
 	engine/resourceManager.o engine/sceneLightSource.o engine/controls.o \
 	fbx/fbx_reader.o fbx/fbx_unzip.o fbx/fbx_node_name.o fbx/fbx_parser.o \

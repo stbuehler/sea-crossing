@@ -61,6 +61,7 @@ add_executable(sea-crossing
 	src/engine/GLSLProgram.cpp
 	src/engine/material.cpp
 	src/engine/mesh.cpp
+	src/engine/messageGeneric.cpp
 	src/engine/messageReceiver.cpp
 	src/engine/postProcessor.cpp
 	src/engine/renderHub.cpp

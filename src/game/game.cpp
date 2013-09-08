@@ -9,7 +9,7 @@ using namespace std;
 //DebugGame::DebugGame(ConsolePlayer const& player1, ConsolePlayer const& player2)
 //	:player{player1, player2}, board(){}
 DebugGame::DebugGame(ConsolePlayer* player1, ConsolePlayer* player2, Board& board,
-		MessageReceiver* receiver)
+		MessageSender receiver)
 	:player(new ConsolePlayer*[2]), board(board), receiver(receiver)
 {
 	player[0] = player1;
@@ -94,7 +94,7 @@ void DebugGame::placeGem(PlayerID player_id, NodeLabel label)
 	moves.push_back(Move(label, player_id, true));
 
 	if(receiver){
-		receiver->pushCreateGemMessage(label, player_id);
+		receiver.pushCreateGemMessage(label, player_id);
 	}
 
 	for(unsigned int i=0; i<new_markers.size(); i++){
@@ -103,7 +103,7 @@ void DebugGame::placeGem(PlayerID player_id, NodeLabel label)
 			<< endl;
 
 		if(receiver){
-			receiver->pushCreateMarkerMessage(new_markers[i], player_id);
+			receiver.pushCreateMarkerMessage(new_markers[i], player_id);
 		}
 	}
 }
@@ -142,7 +142,7 @@ void DebugGame::placeMarker(PlayerID player_id, FaceLabel label)
 	moves.push_back(Move(label, player_id, false));
 
 	if(receiver){
-		receiver->pushCreateMarkerMessage(label, player_id);
+		receiver.pushCreateMarkerMessage(label, player_id);
 	}
 }
 
@@ -290,7 +290,7 @@ void ConsoleGame::placeGem(PlayerID player_id, NodeLabel label)
 //SimpleGUIGame::SimpleGUIGame(ConsolePlayer const& player1, ConsolePlayer const& player2)
 //	:player{player1, player2}{}
 SimpleGUIGame::SimpleGUIGame(Player* player1, Player* player2, Board& board,
-		MessageReceiver* receiver)
+		MessageSender receiver)
 	:player(new Player*[2]), board(board), receiver(receiver)
 {
 	player[0] = player1;
@@ -344,9 +344,9 @@ void SimpleGUIGame::placeGem(PlayerID player_id, NodeLabel label)
 	std::vector<FaceLabel> new_markers;
 
 	board.placeGem(label, player_id, new_markers);
-	receiver->pushCreateGemMessage(label, player_id);
+	receiver.pushCreateGemMessage(label, player_id);
 
 	for(unsigned int i=0; i<new_markers.size(); i++){
-		receiver->pushCreateMarkerMessage(new_markers[i], player_id);
+		receiver.pushCreateMarkerMessage(new_markers[i], player_id);
 	}
 }

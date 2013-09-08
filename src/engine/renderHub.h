@@ -24,7 +24,7 @@ public:
 	RenderHub();
 	~RenderHub();
 
-	RenderHub(MessageReceiver *&postbox) {postbox = &messageRcvr;}
+	MessageSender messageSender();
 
 	/*	Initialize OpenGL context and create a window */
 	bool init();
@@ -46,6 +46,7 @@ public:
 private:
 	ResourceManager resourceMngr;
 	MessageReceiver messageRcvr;
+	MessageSender messageSndr;
 	Controls controlHandler;
 
 	std::list<Scene> sceneList;
@@ -56,7 +57,7 @@ private:
 	bool running;
 
 	/*	Message handling */
-	void processMessage(Message *msg);
+	void processMessage(const std::shared_ptr<Message> &msg);
 
 	/*	Callback handling */
 	static RenderHub *activeInstance;

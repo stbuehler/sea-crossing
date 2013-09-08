@@ -15,23 +15,23 @@ int main(){
 	conf.readFromFile();
 	conf.setValue("use_switch_rule", vec);
 
-	MessageReceiver *testReceiver;
-	RenderHub testRenderer(testReceiver);
+	RenderHub testRenderer;
+	MessageSender testSender(testRenderer.messageSender());
 	//if(testRenderer.init())
 	//{
 	//	testRenderer.addScene();
 	//	testRenderer.setActiveScene(0);
-	//	testReceiver->pushLoadSceneMessages();
+	//	testSender->pushLoadSceneMessages();
 	//	std::thread renderThread(&RenderHub::run,&testRenderer);
 	//}
 	std::thread renderThread(&RenderHub::init,&testRenderer);
-	testReceiver->pushLoadSceneMessages();
+	testSender.pushLoadSceneMessages();
 	
 	Board board;
 	RandomAIPlayer player1("Spongebob", board);
 	RandomAIPlayer player2("Patrick", board);
 	
-	SimpleGUIGame g(&player1, &player2, board, testReceiver);
+	SimpleGUIGame g(&player1, &player2, board, testSender);
 	std::thread gameThread(&SimpleGUIGame::start,&g);
 
 	gameThread.join();

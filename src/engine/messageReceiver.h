@@ -1,6 +1,8 @@
 #ifndef  messageReceiver_h
 #define messageReceiver_h
 
+#include "messageGeneric.h"
+
 #include <string>
 #include <queue>
 #include <atomic>
@@ -48,37 +50,28 @@ struct EntityInfo
 		:id(id), coords(coords), orientation(orientation){}
 };
 
-/**
-* \class MessageReceiver
-* 
-* \brief Allows primitive communication
-* 
-* This class offers a simple form of communication between engine modules via a message FIFO
-* 
-* \author Michael Becher
-* 
-* \date 15th August 2013
-*/
-class MessageReceiver
-{
+class MessageReceiver : public MessageChannel::MessageReceiver {
 public:
-	MessageReceiver();
-	~MessageReceiver() {}
+	MessageReceiver() : MessageChannel::MessageReceiver() { }
+	MessageReceiver(const MessageChannel::MessageReceiver &receiver) : MessageChannel::MessageReceiver(receiver) { }
+	MessageReceiver(MessageChannel::MessageReceiver &&receiver) : MessageChannel::MessageReceiver(receiver) { }
+
+	bool tryGetMessage(std::shared_ptr<Message>& message) {
+		return tryGet< std::shared_ptr<Message> >(message);
+	}
+};
+
+class MessageSender : public MessageChannel::MessageSender {
+public:
+	MessageSender() : MessageChannel::MessageSender() { }
+	MessageSender(const MessageChannel::MessageSender &receiver) : MessageChannel::MessageSender(receiver) { }
+	MessageSender(MessageChannel::MessageSender &&receiver) : MessageChannel::MessageSender(receiver) { }
 
 	void pushLoadSceneMessages();
 	void pushCreateMarkerMessage(std::string label, int player);
 	void pushCreateGemMessage(std::string label, int player);
 	void pushDeleteMessage(int id);
 	void pushExitMessage();
-	Message popMessage();
-
-	bool checkQueue();
-
-private:
-	std::queue<Message> message_fifo;
-	std::atomic<unsigned int> message_counter;
-
-	std::map<std::string, EntityInfo> entity_info_map;
 };
 
 #endif
