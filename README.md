@@ -2,11 +2,10 @@ A Conhex-like game.
 
 Dependencies:
  * A C++11 compiler.
- * fbxsdk: Copy the lib and header files into the 'lib' directory.
- * glfw
- * GLEW
- * GL
- * OpenGL version?
+ * [glfw >= 3](http://www.glfw.org/)
+ * [GLEW](http://glew.sourceforge.net/ "The OpenGL Extension Wrangler Library")
+ * [GLM](http://glm.g-truc.net/ "OpenGL Mathematics")
+ * OpenGL
 
 This game is aimed to run on Linux and Windows machines.
 
