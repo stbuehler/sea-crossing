@@ -41,6 +41,17 @@ if(NOT HAVE_GLM_HPP)
 	message(FATAL_ERROR "missing glm headers")
 endif(NOT HAVE_GLM_HPP)
 
+if(BUILD_EXTRA_WARNINGS)
+	set(WARN_CPPFLAGS "-g -O2 -g2 -Wall -Wmissing-declarations -Wcast-align -Wsign-compare -Wpointer-arith") # -Wshadow
+	set(WARN_LDFLAGS "-g -O2 -g2 -Wall -Wl,--as-needed")
+else(BUILD_EXTRA_WARNINGS)
+	set(WARN_CPPFLAGS "")
+	set(WARN_LDFLAGS "-Wall")
+endif(BUILD_EXTRA_WARNINGS)
+
+set(COMMON_LDFLAGS ${WARN_LDFLAGS} ${ZLIB_LDFLAGS} ${GLLIBS_LDFLAGS})
+set(COMMON_CPPFLAGS "${STDCXX11_FLAGS} ${WARN_CPPFLAGS} ${ZLIB_CFLAGS} ${GLLIBS_CFLAGS}")
+
 
 add_executable(sea-crossing
 	src/ai/ai_players.cpp
@@ -75,17 +86,23 @@ add_executable(sea-crossing
 	src/game/player.cpp
 	src/main.cpp
 )
-
-if(BUILD_EXTRA_WARNINGS)
-	set(WARN_CPPFLAGS "-g -O2 -g2 -Wall -Wmissing-declarations -Wcast-align -Wsign-compare -Wpointer-arith") # -Wshadow
-	set(WARN_LDFLAGS "-g -O2 -g2 -Wall -Wl,--as-needed")
-else(BUILD_EXTRA_WARNINGS)
-	set(WARN_CPPFLAGS "")
-	set(WARN_LDFLAGS "-Wall")
-endif(BUILD_EXTRA_WARNINGS)
-
-set(COMMON_LDFLAGS ${WARN_LDFLAGS} ${ZLIB_LDFLAGS} ${GLLIBS_LDFLAGS})
-set(COMMON_CPPFLAGS "${STDCXX11_FLAGS} ${WARN_CPPFLAGS} ${ZLIB_CFLAGS} ${GLLIBS_CFLAGS}")
-
 target_link_libraries(sea-crossing ${COMMON_LDFLAGS})
 set_target_properties(sea-crossing PROPERTIES COMPILE_FLAGS "${COMMON_CPPFLAGS}")
+
+
+
+add_executable(fbx-parser EXCLUDE_FROM_ALL
+	src/fbx/fbx_geometry.cpp
+	src/fbx/fbx_node_name.cpp
+	src/fbx/fbx_opengl_geometry.cpp
+	src/fbx/fbx_parser.cpp
+	src/fbx/fbx_print.cpp
+	src/fbx/fbx_property.cpp
+	src/fbx/fbx_reader.cpp
+	src/fbx/fbx_unzip.cpp
+	src/fbx/fbx_value.cpp
+
+	src/fbx/fbx_main.cpp
+)
+target_link_libraries(fbx-parser ${COMMON_LDFLAGS})
+set_target_properties(fbx-parser PROPERTIES COMPILE_FLAGS "${COMMON_CPPFLAGS}")
