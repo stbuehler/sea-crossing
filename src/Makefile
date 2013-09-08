@@ -1,6 +1,7 @@
 CC = g++
 CPPFLAGS = -Wall -g -std=c++11 -DUSE_ZLIB
-LFLAGS = -lGLEW -lGL -lglfw -lz
+LDFLAGS = -Wl,--as-needed
+LIBS = -lGLEW -lGL -lglfw -lz
 BIN = ../bin/main
 OBJ = conf.o \
 	game/game.o game/board.o game/player.o game/human_players.o \
@@ -9,13 +10,14 @@ OBJ = conf.o \
 	engine/postProcessor.o engine/scene.o engine/texture3D.o engine/material.o engine/sceneEntity.o engine/mesh.o \
 	engine/resourceManager.o engine/sceneLightSource.o engine/controls.o \
 	fbx/fbx_reader.o fbx/fbx_unzip.o fbx/fbx_node_name.o fbx/fbx_parser.o \
-	fbx/fbx_property.o fbx/fbx_value.o fbx/fbx_print.o fbx/fbx_geometry.o fbx/fbx_opengl_geometry.o
+	fbx/fbx_property.o fbx/fbx_value.o fbx/fbx_print.o fbx/fbx_geometry.o fbx/fbx_opengl_geometry.o \
+	main.o
 DEPENDFILE = .depend
 
 all: $(BIN)
 
-$(BIN): $(OBJ) main.o
-	$(CC) $(CPPFLAGS) $(LFLAGS) $(OBJ) main.cpp -o $(BIN)
+$(BIN): $(OBJ)
+	$(CC) $(CPPFLAGS) $(LDFLAGS) $(OBJ) $(LIBS) -o $(BIN)
 
 -include $(DEPENDFILE)
 
@@ -25,4 +27,4 @@ dep:
 
 .PHONY: clean
 clean:
-	rm -rf $(OBJ) $(BIN) main.o
+	rm -rf $(OBJ) $(BIN)
